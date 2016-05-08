@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* Main
+web: java -jar demo-0.0.1-SNAPSHOT.jar
