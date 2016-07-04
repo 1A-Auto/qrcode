@@ -1,5 +1,7 @@
 package com.example;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,9 +15,17 @@ import net.glxn.qrgen.core.image.ImageType;
 import net.glxn.qrgen.javase.QRCode;
 
 @RestController
+@RequestMapping(value="/code")
 public class CodeController {
-
-	@RequestMapping(value="/code/{name}",produces=MediaType.IMAGE_PNG_VALUE)
+	
+	@RequestMapping(value={"/",""})
+	public QRCodeResource index(){
+		 QRCodeResource resource = new QRCodeResource();
+		 resource.add(linkTo(CodeController.class).slash("/").withSelfRel());
+		 return resource;
+	}
+	
+	@RequestMapping(value="/{name}",produces=MediaType.IMAGE_PNG_VALUE)
 	public void getCode(@PathVariable String name,HttpServletResponse response) throws IOException {
 
 		QRCode code = net.glxn.qrgen.javase.QRCode.from(name);
